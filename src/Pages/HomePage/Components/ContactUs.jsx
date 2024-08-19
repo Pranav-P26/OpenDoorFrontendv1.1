@@ -3,29 +3,63 @@ import {
   Box,
   Container,
   Typography,
-  Grid,
-  Card,
-  CardContent,
   useTheme,
   Link,
+  Divider,
 } from "@mui/material";
 import { styled } from "@mui/system";
 import { Email as EmailIcon } from "@mui/icons-material";
 
-const ContactCard = styled(Card)(({ theme }) => ({
-  height: "100%",
-  display: "flex",
-  flexDirection: "column",
-  transition: "transform 0.3s",
-  "&:hover": {
-    transform: "translateY(-5px)",
+const SectionTitle = styled(Typography)(({ theme }) => ({
+  fontWeight: 700,
+  marginBottom: theme.spacing(6),
+  color: theme.palette.background.default, // Updated to use background default color
+  textTransform: 'uppercase',
+  letterSpacing: '2px',
+}));
+
+const ContactTable = styled(Box)(({ theme }) => ({
+  width: '100%',
+  backgroundColor: theme.palette.background.paper,
+  borderRadius: theme.shape.borderRadius,
+  overflow: 'hidden',
+  boxShadow: theme.shadows[3],
+}));
+
+const ContactRow = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  padding: theme.spacing(3, 4),
+  transition: 'background-color 0.3s',
+  '&:hover': {
+    backgroundColor: theme.palette.action.hover,
   },
 }));
 
-const SectionTitle = styled(Typography)(({ theme }) => ({
-  fontWeight: "bold",
-  marginBottom: theme.spacing(4),
-  color: theme.palette.background.default,
+const ContactCell = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+}));
+
+const NameTypography = styled(Typography)(({ theme }) => ({
+  fontWeight: 600,
+  color: theme.palette.primary.main,
+}));
+
+const RoleTypography = styled(Typography)(({ theme }) => ({
+  color: theme.palette.text.secondary,
+  fontStyle: 'italic',
+}));
+
+const EmailLink = styled(Link)(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
+  textDecoration: "none",
+  color: theme.palette.secondary.main,
+  transition: 'color 0.3s',
+  '&:hover': {
+    color: theme.palette.secondary.dark,
+  },
 }));
 
 const teamMembers = [
@@ -59,7 +93,7 @@ const ContactUs = () => {
       id="contact"
       sx={{
         backgroundColor: theme.palette.primary.light,
-        py: 8,
+        py: 10,
         scrollMarginTop: theme.spacing(8),
       }}
     >
@@ -67,57 +101,31 @@ const ContactUs = () => {
         <SectionTitle variant="h2" align="center">
           Contact Us
         </SectionTitle>
-        <Grid container spacing={4}>
+        <ContactTable>
           {teamMembers.map((member, index) => (
-            <Grid item xs={12} sm={6} md={3} key={index}>
-              <ContactCard>
-                <CardContent>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center",
-                      mb: 2,
-                    }}
-                  >
-                    <Typography
-                      variant="h6"
-                      component="div"
-                      align="center"
-                      gutterBottom
-                    >
-                      {member.name}
-                    </Typography>
-                    <Typography
-                      variant="body2"
-                      align="center"
-                      color="text.secondary"
-                      gutterBottom
-                    >
-                      {member.role}
-                    </Typography>
-                    <Link
-                      href={`mailto:${member.email}`}
-                      color="primary"
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        mt: 2,
-                        textDecoration: "none",
-                        "&:hover": {
-                          textDecoration: "underline",
-                        },
-                      }}
-                    >
-                      <EmailIcon sx={{ mr: 1 }} />
-                      {member.email}
-                    </Link>
+            <React.Fragment key={index}>
+              <ContactRow>
+                <ContactCell sx={{ width: '25%' }}>
+                  <NameTypography variant="h6">{member.name}</NameTypography>
+                </ContactCell>
+                <ContactCell sx={{ width: '35%' }}>
+                  <RoleTypography variant="body1">{member.role}</RoleTypography>
+                </ContactCell>
+                <ContactCell sx={{ width: '40%', justifyContent: 'flex-start' }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', width: '100%' }}>
+                    <EmailIcon sx={{ mr: 2, fontSize: "1.2rem", flexShrink: 0, color: theme.palette.error.main }}/> {/* Updated to use error color */}
+                    <EmailLink href={`mailto:${member.email}`}>
+                      <Typography variant="body2" noWrap>{member.email}</Typography>
+                    </EmailLink>
                   </Box>
-                </CardContent>
-              </ContactCard>
-            </Grid>
-          ))}\
-        </Grid>
+                </ContactCell>
+              </ContactRow>
+              {index < teamMembers.length - 1 && (
+                <Divider sx={{ margin: '0 16px' }} />
+              )}
+            </React.Fragment>
+          ))}
+        </ContactTable>
       </Container>
     </Box>
   );

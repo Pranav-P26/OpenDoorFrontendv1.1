@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
+import { useNavigate } from 'react-router-dom';
 import { gsap } from "gsap";
 import { useTheme } from "@mui/material/styles";
 import Button from "@mui/material/Button";
@@ -29,6 +30,7 @@ const WelcomeMessage = () => {
   const arrowRef = useRef(null);
   const tl = useRef(null);
   const theme = useTheme();
+  const navigate = useNavigate();
 
   useEffect(() => {
     tl.current = gsap.timeline();
@@ -127,6 +129,10 @@ const WelcomeMessage = () => {
     });
   };
 
+  const handleStartLearningClick = () => {
+    navigate('/auth');
+  };
+
   return (
     <div className="flex flex-col justify-start items-center min-h-screen pt-20 pb-10">
       <h1
@@ -153,6 +159,7 @@ const WelcomeMessage = () => {
           padding: "12px 24px",
         }}
         className="hover-effect"
+        onClick={handleStartLearningClick}
       >
         Start Learning
       </Button>

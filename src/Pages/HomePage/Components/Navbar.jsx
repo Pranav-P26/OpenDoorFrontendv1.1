@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from 'react-router-dom';
 import {
   AppBar,
   Toolbar,
@@ -74,9 +75,14 @@ function Navbar() {
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [anchorEl, setAnchorEl] = useState(null);
   const [showAppBar, setShowAppBar] = useState(false);
+  const navigate = useNavigate();
 
   const handleMenuToggle = (event) =>
     setAnchorEl(anchorEl ? null : event.currentTarget);
+
+  const handleStartLearningClick = () => {
+    navigate('/auth');
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -169,6 +175,7 @@ function Navbar() {
             </div>
           )}
           <Button
+            onClick={handleStartLearningClick}
             variant="contained"
             color="secondary"
             sx={{
